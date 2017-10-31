@@ -56,16 +56,16 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-mongoose.connect('mongodb://julian:julian@ec2-50-112-185-187.us-west-2.compute.amazonaws.com:27017/smartools',
-    {
-        useMongoClient: true,
-        promiseLibrary: global.Promise
-    }
+mongoose.connect('mongodb://julian:julian@ec2-52-10-214-216.us-west-2.compute.amazonaws.com:27017/smartools',
+{
+  useMongoClient: true,
+  promiseLibrary: global.Promise
+}
 )
-    .then((datos)=>{
-    console.log("Se conecto a mongo AWS");
+.then((datos)=>{
+console.log("Se conecto a mongo AWS");
 },(err)=>{
-    console.log(err);
+console.log(err);
 });
 
 module.exports = app;
