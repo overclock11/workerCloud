@@ -10,6 +10,7 @@ var fs = require('fs'),
 
 var AWS = require('aws-sdk');
 //AWS.config.loadFromPath('../s3_config.json');
+AWS.config.update({region:'us-west-2'});
 var s3 = new AWS.S3({params: {Bucket: 'cloud-proyecto3/videos-render'}});
 var mongoose = require('mongoose');
 var Modelo = mongoose.model('Modelo');
