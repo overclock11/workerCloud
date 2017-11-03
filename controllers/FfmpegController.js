@@ -27,34 +27,38 @@ function _convertVideoToMp4(message, email){
     //notify se actualizar en convertVideo VideoController
     console.log("entro al convert _convertVideoToMp4");
     urlOrigin = message.url.replace(config.pathVideo.pathS3, '');
-    descargarVideo(urlOrigin, message, email);
-    console.log("salio al convert");
+    descargarVideo(urlOrigin, message, email).then(()=>{
+        console.log("function descargarVideo exitosa");
+        console.log("salio al convert");
+    },(err)=>{
+        console.log("function descargarVideo fallida",err);
+        console.log("salio al convert");
+    })    
 }
 
 function descargarVideo(urlOrigin, message, email) {
-    console.log("entro ala descarga");
-    var params = {Bucket: 'cloud-proyecto3/videos', Key: urlOrigin};
-    //var file = require('fs').createWriteStream('/public/' + urlOrigin);
-    //s3.getObject(params).createReadStream().pipe(file);
-    var filepath = config.pathVideo.pathLogic + urlOrigin;
-    var fileStream = fs.createWriteStream(filepath),
-        deferred = Q.defer();
-    fileStream.on('open', function () {
-        http.get(message.url, function (res) {
-            res.on('error', function (err) {
-                deferred.reject(err);
+    return new Promise ((resolve,reject)=>{
+        console.log("entro ala descarga");
+        var params = {Bucket: 'cloud-proyecto3/videos', Key: urlOrigin};
+        var filepath = config.pathVideo.pathLogic + urlOrigin;
+        var fileStream = fs.createWriteStream(filepath),
+        fileStream.on('open', function () {
+            http.get(message.url, function (res) {
+                res.on('error', function (err) {
+                    reject(err);
+                });
+                res.pipe(fileStream);
             });
-            res.pipe(fileStream);
+        }).on('error', function (err) {
+            revertirNotify(message);
+            console.log("function descargarVideo ",err);
+            reject(err);
+        }).on('finish', function () {
+            console.log("entro al envio");
+            convertVideo(urlOrigin, message, email);
+            resolve(filepath)
         });
-    }).on('error', function (err) {
-        revertirNotify(message);
-        console.log(err);
-        deferred.reject(err);
-    }).on('finish', function () {
-        deferred.resolve(filepath)
-        console.log("entro al envio");
-        convertVideo(urlOrigin, message, email);
-    });
+    })
 };
 
 function revertirNotify(message) {
