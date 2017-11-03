@@ -23,7 +23,13 @@ exports.convertVideoToMp4 = function (message, email) {
     descargarVideo(urlOrigin, message, email);
     console.log("salio al convert");
 };
-
+function _convertVideoToMp4(message, email){
+    //notify se actualizar en convertVideo VideoController
+    console.log("entro al convert _convertVideoToMp4");
+    urlOrigin = message.url.replace(config.pathVideo.pathS3, '');
+    descargarVideo(urlOrigin, message, email);
+    console.log("salio al convert");
+}
 
 function descargarVideo(urlOrigin, message, email) {
     console.log("entro ala descarga");
@@ -80,7 +86,8 @@ function revertirNotify(message) {
                 if (err) {
                     res.status(500).json(err);
                 } else {
-                    FfmpegController.convertVideoToMp4(message, email);
+                    // se modifica funcion porque heroku no la encuebntra
+                    _convertVideoToMp4(message, email);
                 }
             });
         }
