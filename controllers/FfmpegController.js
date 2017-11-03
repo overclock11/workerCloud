@@ -41,7 +41,8 @@ function descargarVideo(urlOrigin, message, email) {
         console.log("entro ala descarga");
         var params = {Bucket: 'cloud-proyecto3/videos', Key: urlOrigin};
         var filepath = config.pathVideo.pathLogic + urlOrigin;
-        var fileStream = fs.createWriteStream(filepath),
+        console.log("function descargarVideo: filepath ->",filepath);
+        var fileStream = fs.createWriteStream(filepath);
         fileStream.on('open', function () {
             http.get(message.url, function (res) {
                 res.on('error', function (err) {
