@@ -12,9 +12,9 @@ config = {
         pathRender: 'http://balanceador008-1848884438.us-west-2.elb.amazonaws.com:3001/public/videos-render/',
         pathS3: 'http://d2zsdt0a19wk6b.cloudfront.net/videos/',//35.163.86.10
         pathRenderS3: 'http://d2zsdt0a19wk6b.cloudfront.net/videos-render/',
-        pathLogic: '/home/ec2-user/cloud/worker/public/videos/',
-        pathLogicOrigin: '/home/ec2-user/cloud/worker/public/videos/',
-        pathLogicConvert: '/home/ec2-user/cloud/worker/public/videos-render/',
+        pathLogic: '/app/public/videos/',
+        pathLogicOrigin: '/app/public/videos/',
+        pathLogicConvert: '/app/public/videos-render/',
         pathLogicOriginS3: 'videos/',
         pathLogicConvertS3: 'videos-render/'
 
